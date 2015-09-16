@@ -58,6 +58,11 @@
       params.url = getValue(model, 'url') || urlError();
     }
 
+    //options - {patch: true}
+    if (options.token) {
+      params.headers = {"Authorization": "Token " + options.token};
+    }
+
     // Ensure that we have the appropriate request data.
     if (!options.data && model && (method == 'create' || method == 'update')) {
       params.contentType = 'application/json';
@@ -78,6 +83,9 @@
         params.type = 'POST';
         params.beforeSend = function(xhr) {
           xhr.setRequestHeader('X-HTTP-Method-Override', type);
+          if (options.token) {
+            xhr.setRequestHeader("Authorization", "Token " + options.toke);
+          }
         };
       }
     }
